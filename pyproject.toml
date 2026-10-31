@@ -11,8 +11,9 @@ dependencies = [
     "python-dotenv"
 ]
 
+[tool.setuptools]
+py-modules = ["chat"]
+
 [project.scripts]
 chat = "chat:repl"
 
-[tool.setuptools]
-py-modules = ["chat"]
