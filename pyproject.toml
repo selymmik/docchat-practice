@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "grok-claude-chatbot"
+version = "0.1.0"
+readme = "README.md"
+dependencies = [
+    "groq",
+    "python-dotenv",
+    "pytest",
+    "coverage",
+    "build",
+    "setuptools"
+]
+
+[project.scripts]
+chat = "chat:repl"
+
+[tool.setuptools]
+py-modules = ["chat"]
