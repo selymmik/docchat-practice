@@ -8,11 +8,7 @@ version = "0.1.0"
 readme = "README.md"
 dependencies = [
     "groq",
-    "python-dotenv",
-    "pytest",
-    "coverage",
-    "build",
-    "setuptools"
+    "python-dotenv"
 ]
 
 [project.scripts]
