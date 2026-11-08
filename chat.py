@@ -13,7 +13,6 @@ from tools.grep import grep
 
 
 load_dotenv()
-client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
 # Map function names to implementations
 available_functions = {
     "calculate": calculate,
@@ -115,13 +114,30 @@ def execute_tool_call(tool_call):
 
 
 def llm(messages, temperature=1):
-    '''Sets parameters for the LLM passthrough
-    '''
+    """Sets parameters for the LLM passthrough.
+
+    >>> from unittest.mock import patch
+    >>> messages = [{'role': 'user', 'content': 'Hi'}]
+    >>> with patch('chat.Groq') as mock_groq:
+    ...     request = mock_groq.return_value.chat.completions.create
+    ...     request.return_value.choices[0].message.content = 'Hello!'
+    ...     reply = llm(messages, temperature=0)
+    ...     print(reply.content)
+    ...     print(request.call_args.kwargs['temperature'])
+    ...     print(request.call_args.kwargs['messages'] == messages)
+    ...     print(request.call_args.kwargs['model'])
+    Hello!
+    0
+    True
+    openai/gpt-oss-20b
+    """
+    client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
     completion = client.chat.completions.create(
         messages=messages,
         model='openai/gpt-oss-20b',
         temperature=temperature,
         tools=tools
+        
     )
     return completion.choices[0].message
 
@@ -130,7 +146,8 @@ class Chat:
     '''Uses chat history, system instructions, and tool execution calls.
     >>> from unittest.mock import patch
     >>> chatNew = Chat(system='act like a five year old')
-    >>> with patch.object(client.chat.completions, 'create') as request:
+    >>> with patch('chat.Groq') as mock_groq:
+    ...     request = mock_groq.return_value.chat.completions.create
     ...     request.return_value.choices[0].message.content = 'Hiii!'
     ...     request.return_value.choices[0].message.tool_calls = None
     ...     request.return_value.choices[0].message.model_dump.return_value = {
@@ -149,7 +166,8 @@ class Chat:
     def send_message(self, message, temperature=0.8, debug=False):
         """Send a message, check if groq should call on a tool and if so, execute and retain the reply.
         >>> from unittest.mock import patch
-        >>> with patch.object(client.chat.completions, 'create') as request:
+        >>> with patch('chat.Groq') as mock_groq:
+        ...     request = mock_groq.return_value.chat.completions.create
         ...     request.return_value.choices[0].message.tool_calls = None
         ...     request.return_value.choices[0].message.content = 'Hello!'
         ...     request.return_value.choices[0].message.model_dump.return_value = {
@@ -194,7 +212,9 @@ class Chat:
         ...     "role": "assistant",
         ...     "content": "144"
         ... }
-        >>> with patch.object(client.chat.completions, 'create', side_effect=[first, second]):
+        >>> with patch('chat.Groq') as mock_groq:
+        ...     request = mock_groq.return_value.chat.completions.create
+        ...     request.side_effect = [first, second]
         ...     chat = Chat(system='Be brief.')
         ...     print(chat.send_message('What is 12*12', temperature=0))
         144
@@ -257,22 +277,32 @@ def repl(temperature=0.8):
     ...     'role': 'assistant',
     ...     'content': "Your last message was 'Hi'."
     ... }
-    >>> with patch.object(client.chat.completions, 'create', side_effect=[first, second]):
+    >>> with patch('chat.Groq') as mock_groq:
+    ...     request = mock_groq.return_value.chat.completions.create
+    ...     request.side_effect = [first, second]
     ...     chat = Chat(system='Be brief.')
     ...     print(chat.send_message('Hi', temperature=0))
     ...     print(chat.send_message('What was my last message', temperature=0))
     Hello!
     Your last message was 'Hi'.
-    >>> with patch('builtins.input', side_effect=['Ahoy', EOFError]):
-    ...     with patch.object(client.chat.completions, 'create') as request:
+    >>> with patch.object(sys, 'argv', ['chat']):
+    ...  with patch('builtins.input', side_effect=['Ahoy', EOFError]):
+    ...     with patch('chat.Groq') as mock_groq:
+    ...         request = mock_groq.return_value.chat.completions.create
     ...         request.return_value.choices[0].message.content = 'Hello!'
+    ...         request.return_value.choices[0].message.tool_calls = None
     ...         repl(temperature=0)
     Hello!
-    >>> with patch('builtins.input', side_effect=['Ahoy', KeyboardInterrupt]):
-    ...     with patch.object(client.chat.completions, 'create') as request:
+    <BLANKLINE>
+    >>> with patch.object(sys, 'argv', ['chat']):
+    ...  with patch('builtins.input', side_effect=['Ahoy', KeyboardInterrupt]):
+    ...     with patch('chat.Groq') as mock_groq:
+    ...         request = mock_groq.return_value.chat.completions.create
     ...         request.return_value.choices[0].message.content = 'Hello!'
+    ...         request.return_value.choices[0].message.tool_calls = None
     ...         repl(temperature=0)
     Hello!
+    <BLANKLINE>
     >>> from unittest.mock import patch
     >>> with patch.object(sys, 'argv', ['chat', 'Hello!']):
     ...     print(sys.argv[1])
