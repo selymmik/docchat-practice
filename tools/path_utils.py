@@ -1,6 +1,6 @@
 '''Helper function to limit llm's ability to read folders and files to what is requested'''
 
-from pathlib import PureWindowsPath
+from pathlib import PureWindowsPath, PurePosixPath
 
 
 def is_path_safe(path):
@@ -15,10 +15,12 @@ def is_path_safe(path):
     False
     >>> is_path_safe("test_projects/ebay-scraper")
     True
+    >>> is_path_safe("/passwords/outside.txt")
+    False
     """
     path = str(path)
 
-    if PureWindowsPath(path).is_absolute():
+    if PureWindowsPath(path).is_absolute() or PurePosixPath(path).is_absolute():
         return False
 
     if ".." in path:

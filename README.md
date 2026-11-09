@@ -3,19 +3,18 @@ This program allows you to access 'openai/gpt-oss-20b' via your terminal by inpu
 Ensure that all dependencies are installed before operating. Note that the bot will respond in the tone and voice of Emperor Palpatine. The tool uses a Groq API to utilize four tool functions: calculate, grep, ls, and cat. Calculate executes when prompted with math problems, grep when asked to find a string within a file, ls when desiring to list the files and cat, to read files directly. All of these will be automatically called based on the context of a user's input. They can also be called manually by starting your prompt with /tool [parameter] (ex: /calculate 12*12).
 
 PASTE INTO BASH TERMINAL:
-``` bash
+```text
 python -m build
 python -m pip install .
 chat
 ```
 
 Examples of chatbot executing tasks on test_projects:
-``` bash
+```text
 cd test_projects/ebay-scraper
 chat
 chat> What files are inside test_projects/ebay-scraper?
-```
-``` text
+
 Behold the contents of the *ebay‑scraper* domain:
 
 - `README.md`
@@ -34,12 +33,11 @@ Behold the contents of the *ebay‑scraper* domain:
 The darkness of the file tree is now illuminated.
 ```
 
-``` bash
+```text
 cd test_projects/lab-homepage
 chat
 chat> Show me the contents of test_projects/lab-homepage/README.md
-```
-``` text
+
 # lab-homepage
 
 Starter files for the **Hello, Homepage** and **Dress It Up** labs in *CSCI 40: Computing for the Web*.
@@ -51,12 +49,11 @@ Starter files for the **Hello, Homepage** and **Dress It Up** labs in *CSCI 40: 
 May the light of knowledge guide you.
 ```
 
-``` bash
+```text
 cd test_projects/markdown-compiler
 chat
 chat> Find all lines containing "=" in test_projects/markdown-compiler/pyproject.toml
-```
-``` text
+
 Here are the lines from `test_projects/markdown-compiler/pyproject.toml` that contain the character “=”:  
 
 

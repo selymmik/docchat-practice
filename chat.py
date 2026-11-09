@@ -161,6 +161,9 @@ class Chat:
     [{'role': 'system', 'content': 'act like a five year old'}, {'role': 'user', 'content': 'Hiee'}, {'role': 'assistant', 'content': 'Hiii!'}]
     '''
     def __init__(self, system='You are a helpful assistant.'):
+        '''
+        This provides an argument to set the system parameters.
+        '''
         self.messages = [{'role': 'system', 'content': system}]
 
     def send_message(self, message, temperature=0.8, debug=False):
@@ -312,7 +315,18 @@ def repl(temperature=0.8):
     debug = "--debug" in sys.argv[1:]
     if len(sys.argv) > 1 and not debug:
         message = " ".join(sys.argv[1:])
-        print(chat.send_message(message, temperature=temperature))
+        if message.startswith("/"):
+                parts = message.split(" ", 1)
+
+                function_name = parts[0][1:]
+                argument = parts[1] if len(parts) > 1 else ""
+
+                function_to_call = available_functions[function_name]
+
+                result = function_to_call(argument)
+                print(result)
+        else:
+            print(chat.send_message(message, temperature=temperature))
         return
     try:
         while True:
