@@ -11,6 +11,8 @@ chat
 
 Examples of chatbot executing tasks on test_projects:
 ``` bash
+cd test_projects/ebay-scraper
+chat
 chat> What files are inside test_projects/ebay-scraper?
 ```
 ``` text
@@ -33,6 +35,8 @@ The darkness of the file tree is now illuminated.
 ```
 
 ``` bash
+cd test_projects/lab-homepage
+chat
 chat> Show me the contents of test_projects/lab-homepage/README.md
 ```
 ``` text
@@ -48,6 +52,8 @@ May the light of knowledge guide you.
 ```
 
 ``` bash
+cd test_projects/markdown-compiler
+chat
 chat> Find all lines containing "=" in test_projects/markdown-compiler/pyproject.toml
 ```
 ``` text
