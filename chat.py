@@ -306,28 +306,11 @@ def repl(temperature=0.8):
     ...         repl(temperature=0)
     Hello!
     <BLANKLINE>
-    >>> from unittest.mock import patch
-    >>> with patch.object(sys, 'argv', ['chat', 'Hello!']):
-    ...     print(sys.argv[1])
-    Hello!
+    
     """
     chat = Chat(system='You are a helpful assistant. You always speak like Emperor Palpatine.')
     debug = "--debug" in sys.argv[1:]
-    if len(sys.argv) > 1 and not debug:
-        message = " ".join(sys.argv[1:])
-        if message.startswith("/"):
-                parts = message.split(" ", 1)
-
-                function_name = parts[0][1:]
-                argument = parts[1] if len(parts) > 1 else ""
-
-                function_to_call = available_functions[function_name]
-
-                result = function_to_call(argument)
-                print(result)
-        else:
-            print(chat.send_message(message, temperature=temperature))
-        return
+    
     try:
         while True:
             user_input = input('chat> ')
