@@ -11,8 +11,11 @@ chat
 
 Examples of chatbot executing tasks on test_projects:
 ```text
-cd test_projects/ebay-scraper
-chat
+$ cd test_projects/ebay-scraper
+$ chat
+chat> /ls .
+['.\\README.md', '.\\claremont mckenna.csv', '.\\claremont mckenna.json', '.\\drill press.csv', '.\\drill press.json', '.\\ebay-dl.py', '.\\garden tools.csv', '.\\garden tools.json', '.\\practice-pages', '.\\practice-pages.zip', '.\\submission.toml', '.\\test.py']
+
 chat> What files are inside test_projects/ebay-scraper?
 
 Behold the contents of the *ebay‑scraper* domain:
@@ -34,8 +37,11 @@ The darkness of the file tree is now illuminated.
 ```
 
 ```text
-cd test_projects/lab-homepage
-chat
+$ cd test_projects/lab-homepage
+$ chat
+chat> /ls .
+['.\\5249.jpg', '.\\DeathAndLife.jpg', '.\\Jane_Jacobs.jpg', '.\\README.md', '.\\index.html', '.\\index2.html', '.\\index3.html', '.\\style.css', '.\\submission.toml']
+
 chat> Show me the contents of test_projects/lab-homepage/README.md
 
 # lab-homepage
@@ -50,8 +56,11 @@ May the light of knowledge guide you.
 ```
 
 ```text
-cd test_projects/markdown-compiler
-chat
+$ cd test_projects/markdown-compiler
+$ chat
+chat> /ls .
+['.\\5249.jpg', '.\\DeathAndLife.jpg', '.\\Jane_Jacobs.jpg', '.\\README.md', '.\\index.html', '.\\index2.html', '.\\index3.html', '.\\style.css', '.\\submission.toml']
+
 chat> Find all lines containing "=" in test_projects/markdown-compiler/pyproject.toml
 
 Here are the lines from `test_projects/markdown-compiler/pyproject.toml` that contain the character “=”:  
