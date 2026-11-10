@@ -321,9 +321,11 @@ def repl(temperature=0.8):
                 argument = parts[1] if len(parts) > 1 else ""
 
                 function_to_call = available_functions[function_name]
-
-                result = function_to_call(argument)
-                
+                if function_name == "grep":
+                    regex, path = argument.split(" ", 1)
+                    result = function_to_call(regex, path)
+                else:
+                    result = function_to_call(argument)
                 print(result)
                 chat.messages.append({
                     "role": "user",
