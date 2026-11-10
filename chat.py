@@ -323,7 +323,17 @@ def repl(temperature=0.8):
                 function_to_call = available_functions[function_name]
 
                 result = function_to_call(argument)
+                
                 print(result)
+                chat.messages.append({
+                    "role": "user",
+                    "content": user_input
+                    })
+                chat.messages.append({
+                    "role": "assistant",
+                    "tool": str(function_name),
+                    "content": str(result)                 
+                })
             else:
                 print(chat.send_message(user_input, temperature=temperature, debug=debug))
     except (KeyboardInterrupt, EOFError):
